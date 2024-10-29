@@ -1,4 +1,4 @@
-package com.example.sedonortdd
+package com.example.sedonortdd.models
 
 data class Article(
     var title: String = "",
