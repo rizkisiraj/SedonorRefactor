@@ -10,8 +10,8 @@ import com.bumptech.glide.RequestManager
 import com.example.sedonortdd.R
 import com.example.sedonortdd.data.models.Article
 
-class MyAdapter(list: List<Article>?, listener: OnItemClickListener, glideRequestManager: RequestManager) :
-    RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+class ArticleAdapter(list: List<Article>?, listener: OnItemClickListener, glideRequestManager: RequestManager) :
+    RecyclerView.Adapter<ArticleAdapter.MyViewHolder>() {
     private val list: List<Article>? = list
     private val mListener = listener
     private val glideRequestManager: RequestManager = glideRequestManager

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "824317259454",
+    "project_id": "sedonorrefactor",
+    "storage_bucket": "sedonorrefactor.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824317259454:android:a12634fd642ad94c1f38ef",
+        "android_client_info": {
+          "package_name": "com.example.sedonortdd"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJbMG3f5Vq1nLJFYqUdBPu_Ek2xTd7Yz4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

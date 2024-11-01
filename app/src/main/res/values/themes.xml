@@ -3,7 +3,10 @@
     <style name="Base.Theme.SedonorTDD" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:statusBarColor">
+            @color/transparentHalfBlack
+        </item>
     </style>
-
-    <style name="Theme.SedonorTDD" parent="Base.Theme.SedonorTDD"/>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar"/>
+    <style name="Theme.SedonorTDD" parent="Base.Theme.SedonorTDD" />
 </resources>
