@@ -7,6 +7,10 @@ android {
     namespace = "com.example.sedonortdd"
     compileSdk = 34
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.example.sedonortdd"
         minSdk = 24
@@ -33,7 +37,7 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.glide)
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
