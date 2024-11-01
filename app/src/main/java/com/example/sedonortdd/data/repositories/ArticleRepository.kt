@@ -1,10 +1,9 @@
-package com.example.sedonortdd.repositories
+package com.example.sedonortdd.data.repositories
 
-import com.example.sedonortdd.models.Article
+import com.example.sedonortdd.data.models.Article
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.tasks.await
-import kotlin.reflect.KClass
 
 class ArticleRepository(private val firestore: FirebaseFirestore) {
     suspend fun fetchArticles(): Result<List<Article>> {

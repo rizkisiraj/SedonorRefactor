@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.example.sedonortdd.R
-import com.example.sedonortdd.models.Article
+import com.example.sedonortdd.data.models.Article
 
 class MyAdapter(list: List<Article>?, listener: OnItemClickListener, glideRequestManager: RequestManager) :
     RecyclerView.Adapter<MyAdapter.MyViewHolder>() {

@@ -37,7 +37,7 @@ android {
 }
 
 dependencies {
-    implementation(libs.glide)
+
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

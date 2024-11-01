@@ -1,8 +1,7 @@
 package com.example.sedonortdd
 
-import com.example.sedonortdd.models.Article
-import com.example.sedonortdd.repositories.ArticleRepository
-import com.example.sedonortdd.repositories.LocationRepository
+import com.example.sedonortdd.data.models.Article
+import com.example.sedonortdd.data.repositories.LocationRepository
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore

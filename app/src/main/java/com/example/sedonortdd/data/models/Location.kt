@@ -1,4 +1,4 @@
-package com.example.sedonortdd.models
+package com.example.sedonortdd.data.models
 
 data class Location(
     val description: String = "",
