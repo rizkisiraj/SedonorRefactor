@@ -3,17 +3,23 @@ package com.example.sedonortdd.ui.article
 import ArticleAdapter
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.sedonortdd.R
 import com.example.sedonortdd.data.models.Article
+import com.example.sedonortdd.data.repositories.ArticleRepository
 import com.example.sedonortdd.databinding.ActivityArticleBinding
+import com.example.sedonortdd.viewModel.ArticleViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.firestore.FirebaseFirestore
 
 class ArticleActivity : AppCompatActivity() {
 
@@ -21,6 +27,8 @@ class ArticleActivity : AppCompatActivity() {
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var articleAdapter: ArticleAdapter
     private lateinit var recyclerView: RecyclerView
+    private lateinit var articleRepository: ArticleRepository
+    private val articleViewModel: ArticleViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,20 +38,15 @@ class ArticleActivity : AppCompatActivity() {
 
         bottomNavigationView = binding.bottomNavbar
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        var db = FirebaseFirestore.getInstance()
+        articleRepository = ArticleRepository(db)
+        articleViewModel.repository = articleRepository
 
-        val articles = listOf(
-            Article("Title 1", "Content for article 1", "https://www.blibli.com/friends-backend/wp-content/uploads/2024/05/B130125-Cover-Profil-Lionel-Messi-scaled.jpg"),
-            Article("Title 2", "Content for article 2", "https://www.blibli.com/friends-backend/wp-content/uploads/2024/05/B130125-Cover-Profil-Lionel-Messi-scaled.jpg"),
-            Article("Title 3", "Content for article 3", "https://www.blibli.com/friends-backend/wp-content/uploads/2024/05/B130125-Cover-Profil-Lionel-Messi-scaled.jpg")
-        )
+        articleViewModel.loadArticles()
 
         setupBottomNavigationBar()
-        setupRecyclerView(articles)
+        setupRecyclerView(listOf())
+        setupObservers()
     }
 
     private fun setupBottomNavigationBar() {
@@ -68,6 +71,29 @@ class ArticleActivity : AppCompatActivity() {
         binding.rvArtikel.apply {
             layoutManager = LinearLayoutManager(this@ArticleActivity, LinearLayoutManager.VERTICAL, false)
             adapter = articleAdapter
+        }
+    }
+
+    private fun setupObservers() {
+        articleViewModel.articles.observe(this, Observer { articles ->
+            if (articles.isNullOrEmpty()) {
+                binding.emptyTextView.visibility = View.VISIBLE
+                binding.rvArtikel.visibility = View.GONE
+            } else {
+                binding.emptyTextView.visibility = View.GONE
+                binding.rvArtikel.visibility = View.VISIBLE
+                articleAdapter.updateData(articles) // Assuming updateData method in adapter
+            }
+        })
+
+        articleViewModel.loading.observe(this, Observer { isLoading ->
+            binding.emptyTextView.text = "Loading..."
+        })
+
+        articleViewModel.error.observe(this) { errorMessage ->
+            errorMessage?.let {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

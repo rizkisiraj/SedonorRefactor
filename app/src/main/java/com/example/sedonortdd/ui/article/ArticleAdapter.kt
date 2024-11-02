@@ -12,7 +12,7 @@ import com.example.sedonortdd.data.models.Article
 
 class ArticleAdapter(list: List<Article>?, listener: OnItemClickListener, glideRequestManager: RequestManager) :
     RecyclerView.Adapter<ArticleAdapter.MyViewHolder>() {
-    private val list: List<Article>? = list
+    private var list: List<Article>? = list
     private val mListener = listener
     private val glideRequestManager: RequestManager = glideRequestManager
 
@@ -32,6 +32,11 @@ class ArticleAdapter(list: List<Article>?, listener: OnItemClickListener, glideR
 
     override fun getItemCount(): Int {
         return list?.size ?: 0
+    }
+
+    fun updateData(articles: List<Article>) {
+        list = articles
+        notifyDataSetChanged()
     }
 
     class MyViewHolder(itemView: View, listener: OnItemClickListener?) : RecyclerView.ViewHolder(itemView) {

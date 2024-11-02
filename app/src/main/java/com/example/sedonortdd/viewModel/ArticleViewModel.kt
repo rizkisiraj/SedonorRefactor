@@ -8,7 +8,9 @@ import com.example.sedonortdd.data.models.Article
 import com.example.sedonortdd.data.repositories.ArticleRepository
 import kotlinx.coroutines.launch
 
-class ArticleViewModel(private val repository: ArticleRepository): ViewModel() {
+class ArticleViewModel(): ViewModel() {
+    lateinit var repository: ArticleRepository
+
     private val _articles = MutableLiveData<List<Article>>()
     val articles: LiveData<List<Article>> get() = _articles
 
@@ -20,6 +22,10 @@ class ArticleViewModel(private val repository: ArticleRepository): ViewModel() {
 
 
     fun loadArticles() {
+        if (!::repository.isInitialized) {
+            throw IllegalStateException("Repository must be initialized before loading articles")
+        }
+
         _loading.value = true
         _error.value = null
 

@@ -27,7 +27,6 @@ import org.junit.Before
 
 class ArticleRepositoryTest {
 
-
     private lateinit var mockFirestore: FirebaseFirestore
     private lateinit var mockCollectionReference: CollectionReference
     private lateinit var mockTask: Task<QuerySnapshot>
