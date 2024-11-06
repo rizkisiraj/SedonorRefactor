@@ -1,26 +1,24 @@
-package com.example.sedonortdd
+package com.example.sedonortdd.Article
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.sedonortdd.data.models.Article
 import com.example.sedonortdd.data.repositories.ArticleRepository
 import com.example.sedonortdd.viewModel.ArticleViewModel
+import com.google.firebase.firestore.FirebaseFirestore
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.verify
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.*
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 
 class ArticleViewModelTest {
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule() // For LiveData testing
 
-    private val repository: ArticleRepository = mockk()
     private lateinit var viewModel: ArticleViewModel
     private val testDispatcher = StandardTestDispatcher()
 
@@ -28,7 +26,7 @@ class ArticleViewModelTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        viewModel = ArticleViewModel(repository)
+        viewModel = ArticleViewModel()
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -39,7 +37,10 @@ class ArticleViewModelTest {
 
     @Test
     fun `loadArticles should update loading to true initially`() = runTest {
-        coEvery { repository.fetchArticles() } returns Result.success(emptyList())
+        val mockRepository: ArticleRepository = mockk(relaxed = true)
+        viewModel.repository = mockRepository
+
+        coEvery { mockRepository.fetchArticles() } returns Result.success(emptyList())
 
         val loadingObserver: Observer<Boolean> = mockk(relaxed = true)
         viewModel.loading.observeForever(loadingObserver)
@@ -53,9 +54,11 @@ class ArticleViewModelTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `loadArticles should update LiveData with articles on success`() = runTest {
-        // Given: Mock repository returns a successful result
+        val mockRepository: ArticleRepository = mockk(relaxed = true)
+        viewModel.repository = mockRepository
+
         val articles = listOf(Article("Title1", "Content1"), Article("Title2", "Content2"))
-        coEvery { repository.fetchArticles() } returns Result.success(articles)
+        coEvery { mockRepository.fetchArticles() } returns Result.success(articles)
 
         val articlesObserver: Observer<List<Article>> = mockk(relaxed = true)
         val loadingObserver: Observer<Boolean> = mockk(relaxed = true)
@@ -66,6 +69,7 @@ class ArticleViewModelTest {
         // When: loadArticles is called
         viewModel.loadArticles()
         advanceUntilIdle() // Ensure coroutine completes
+
 
         // Then: Articles should be updated, loading should be false
         verify { articlesObserver.onChanged(articles) }
@@ -78,9 +82,11 @@ class ArticleViewModelTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `loadArticles should update error message on failure`() = runTest {
-        // Given: Mock repository returns a failure result
+        val mockRepository: ArticleRepository = mockk(relaxed = true)
+        viewModel.repository = mockRepository
+
         val exception = Exception("Network Error")
-        coEvery { repository.fetchArticles() } returns Result.failure(exception)
+        coEvery { mockRepository.fetchArticles() } returns Result.failure(exception)
 
         val errorObserver: Observer<String?> = mockk(relaxed = true)
         val loadingObserver: Observer<Boolean> = mockk(relaxed = true)
@@ -88,15 +94,24 @@ class ArticleViewModelTest {
         viewModel.error.observeForever(errorObserver)
         viewModel.loading.observeForever(loadingObserver)
 
-        // When: loadArticles is called
         viewModel.loadArticles()
-        advanceUntilIdle() // Ensure coroutine completes
+        advanceUntilIdle()
 
-        // Then: Error message should be updated, loading should be false
         verify { errorObserver.onChanged("Network Error") }
         verify { loadingObserver.onChanged(false) }
 
         viewModel.error.removeObserver(errorObserver)
         viewModel.loading.removeObserver(loadingObserver)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `loadArticles should throw an error if repository is not initialized`() = runTest {
+
+        val exception = Assert.assertThrows(IllegalStateException::class.java) {
+            viewModel.loadArticles()
+        }
+
+        assertEquals("Repository must be initialized before loading articles", exception.message)
     }
 }
