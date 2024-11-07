@@ -1,4 +1,7 @@
 package com.example.sedonortdd.viewModel
 
-class LocationViewModel {
+import androidx.lifecycle.ViewModel
+
+class LocationViewModel(): ViewModel() {
+
 }

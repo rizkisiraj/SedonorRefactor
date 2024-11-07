@@ -104,7 +104,6 @@ class ArticleViewModelTest {
         viewModel.loading.removeObserver(loadingObserver)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `loadArticles should throw an error if repository is not initialized`() = runTest {
 
