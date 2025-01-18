@@ -8,7 +8,8 @@ import kotlinx.coroutines.tasks.await
 class ArticleRepository(private val firestore: FirebaseFirestore) {
     suspend fun fetchArticles(): Result<List<Article>> {
         return try {
-            val snapshot: QuerySnapshot = firestore.collection("articles").get().await()
+            var collection = firestore.collection("articles")
+            var snapshot: QuerySnapshot = collection.get().await()
             Result.success(snapshot.toObjects(Article::class.java))
         } catch (e: Exception) {
             Result.failure(e)

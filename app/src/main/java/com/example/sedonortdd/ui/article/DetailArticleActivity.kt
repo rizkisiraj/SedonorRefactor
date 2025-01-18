@@ -2,6 +2,7 @@ package com.example.sedonortdd.ui.article
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -31,11 +32,15 @@ class DetailArticleActivity : AppCompatActivity() {
 
     fun setupContent(intent: Intent, glide: RequestManager) {
 
-        binding.tvTitleDetailArtikel.text = intent.getStringExtra("judul")
-        binding.tvKontenDetailArtikel.text = intent.getStringExtra("konten")
+        binding.tvTitleDetailArtikel.text = intent.getStringExtra("title")
+        binding.tvKontenDetailArtikel.text = intent.getStringExtra("content")
 
         glide.load(intent.getStringExtra("imageUrl"))
             .placeholder(R.drawable.loading)
             .into(binding.ivDetailArtikel)
+    }
+
+    fun intentKeListArtikel(view: View) {
+        TODO()
     }
 }

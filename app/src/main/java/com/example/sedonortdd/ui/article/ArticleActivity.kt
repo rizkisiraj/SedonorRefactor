@@ -1,7 +1,9 @@
 package com.example.sedonortdd.ui.article
 
 import ArticleAdapter
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -61,9 +63,15 @@ class ArticleActivity : AppCompatActivity() {
             articles,
             glideRequestManager = Glide.with(this),
             listener = object : ArticleAdapter.OnItemClickListener {
-                override fun onItemClick(position: Int) {
-                    val clickedArticle = articles[position]
-                    println(clickedArticle)
+                override fun onItemClick(listArticles: List<Article>,position: Int) {
+                    val clickedArticle = listArticles[position]
+                    Log.d("element", "${listArticles[position]}")
+                    val intent = Intent(this@ArticleActivity, DetailArticleActivity::class.java)
+                    intent.putExtra("title", clickedArticle.title)
+                    intent.putExtra("content", clickedArticle.content)
+                    intent.putExtra("imageUrl", clickedArticle.imageUrl)
+
+                    startActivity(intent)
                 }
             }
         )

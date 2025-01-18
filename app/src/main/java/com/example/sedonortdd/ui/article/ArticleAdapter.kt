@@ -1,5 +1,6 @@
 // Injected for Glide image loading
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,12 +18,12 @@ class ArticleAdapter(list: List<Article>?, listener: OnItemClickListener, glideR
     private val glideRequestManager: RequestManager = glideRequestManager
 
     interface OnItemClickListener {
-        fun onItemClick(position: Int)
+        fun onItemClick(listArticles: List<Article>, position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_artikel, parent, false)
-        return MyViewHolder(view, mListener)
+        return MyViewHolder(view, mListener, list)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -39,7 +40,7 @@ class ArticleAdapter(list: List<Article>?, listener: OnItemClickListener, glideR
         notifyDataSetChanged()
     }
 
-    class MyViewHolder(itemView: View, listener: OnItemClickListener?) : RecyclerView.ViewHolder(itemView) {
+    class MyViewHolder(itemView: View, listener: OnItemClickListener?, list: List<Article>?) : RecyclerView.ViewHolder(itemView) {
         private val judul: TextView = itemView.findViewById<TextView>(R.id.tvJudulArtikel)
         private val konten: TextView = itemView.findViewById<TextView>(R.id.tvKonten)
         private val gambar: ImageView = itemView.findViewById<ImageView>(R.id.ivGambar)
@@ -49,7 +50,8 @@ class ArticleAdapter(list: List<Article>?, listener: OnItemClickListener, glideR
             itemView.setOnClickListener { v: View? ->
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION && listener != null) {
-                    listener.onItemClick(position)
+                    listener.onItemClick(list!!,position)
+                    Log.d("prepare", "to die")
                 }
             }
         }

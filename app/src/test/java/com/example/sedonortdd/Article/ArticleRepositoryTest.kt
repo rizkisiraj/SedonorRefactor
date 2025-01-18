@@ -73,5 +73,4 @@ class ArticleRepositoryTest {
         assertTrue(result.isFailure)
         assertEquals("Firestore fetch error", result.exceptionOrNull()?.message)
     }
-
 }
