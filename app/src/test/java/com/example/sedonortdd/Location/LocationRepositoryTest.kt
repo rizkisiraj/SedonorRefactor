@@ -5,6 +5,7 @@ import com.example.sedonortdd.data.models.Location
 import com.example.sedonortdd.data.repositories.LocationRepository
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import io.mockk.coEvery
@@ -23,7 +24,9 @@ class LocationRepositoryTest {
     private lateinit var mockFirestore: FirebaseFirestore
     private lateinit var mockCollectionReference: CollectionReference
     private lateinit var mockTask: Task<QuerySnapshot>
+    private lateinit var mockDonorHistoryTask: Task<DocumentReference>
     private lateinit var mockQuerySnapshot: QuerySnapshot
+    private lateinit var mockDocumentReference: DocumentReference
     private lateinit var repository: LocationRepository
 
     @Before
@@ -64,5 +67,23 @@ class LocationRepositoryTest {
 
         assertTrue(result.isFailure)
         assertEquals("Firestore fetch error", result.exceptionOrNull()?.message)
+    }
+
+    @Test
+    fun `create location successfully in firestore`() = runBlocking {
+        // Arrange
+        val location = Location(name = "New Location", description = "This is a new test location")
+        every { mockFirestore.collection("locations") } returns mockCollectionReference
+        every { mockCollectionReference.add(location) } returns mockDonorHistoryTask
+
+        mockkStatic("kotlinx.coroutines.tasks.TasksKt")
+        coEvery { mockDonorHistoryTask.await() } returns mockDocumentReference
+
+        // Act
+        val result = repository.createLocation(location)
+
+        // Assert
+        assertTrue(result.isSuccess)
+        assertEquals(null, result.getOrNull()) // Void return type represented as null
     }
 }

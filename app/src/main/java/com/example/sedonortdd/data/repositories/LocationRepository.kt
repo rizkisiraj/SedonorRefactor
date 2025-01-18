@@ -14,4 +14,8 @@ class LocationRepository(private val firestore: FirebaseFirestore) {
             Result.failure(e)
         }
     }
+
+    suspend fun createLocation(location: Location): Result<Nothing?> {
+        return Result.success(null)
+    }
 }
