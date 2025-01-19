@@ -5,7 +5,7 @@ import com.google.firebase.Timestamp
 data class DonorHistory(
     val weight: Int = 0,
     val heartRate: Int = 0,
-    val hemoglobinLevel: String = "",
+    val hemoglobinLevel: Int = 0,
     val status: Boolean? = false,
     val temperature: Int = 0,
     val donorDate: Timestamp = Timestamp.now(),

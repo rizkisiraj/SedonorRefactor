@@ -1,11 +1,9 @@
-package com.example.sedonortdd.Location
+package com.example.sedonortdd.DonorHistory
 
-import com.example.sedonortdd.data.models.Article
-import com.example.sedonortdd.data.models.Location
-import com.example.sedonortdd.data.repositories.LocationRepository
+import com.example.sedonortdd.data.models.DonorHistory
+import com.example.sedonortdd.data.repositories.DonorHistoryRepository
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import io.mockk.coEvery
@@ -20,14 +18,13 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
-class LocationRepositoryTest {
+class DonorRepositoryTest {
+
     private lateinit var mockFirestore: FirebaseFirestore
     private lateinit var mockCollectionReference: CollectionReference
     private lateinit var mockTask: Task<QuerySnapshot>
-    private lateinit var mockDonorHistoryTask: Task<DocumentReference>
     private lateinit var mockQuerySnapshot: QuerySnapshot
-    private lateinit var mockDocumentReference: DocumentReference
-    private lateinit var repository: LocationRepository
+    private lateinit var repository: DonorHistoryRepository
 
     @Before
     fun setUp() {
@@ -35,35 +32,44 @@ class LocationRepositoryTest {
         mockCollectionReference = mockk(relaxed = true)
         mockTask = mockk(relaxed = true)
         mockQuerySnapshot = mockk(relaxed = true)
-        repository = LocationRepository(mockFirestore)
+        repository = DonorHistoryRepository(mockFirestore)
     }
 
     @Test
-    fun `fetch locations successfully from firestore`() = runBlocking {
+    fun `fetch donorHistories successfully from firestore`() = runBlocking {
         // Arrange
-        val location = Location(name = "TestName", description = "this is a test")
-        every { mockFirestore.collection("locations") } returns mockCollectionReference
+        val history = DonorHistory(
+            weight = 80,
+            heartRate = 120,
+            hemoglobinLevel = 54,
+            status = true,
+            temperature = 35,
+            diastolicPressure = 120,
+            systolicPressure = 8,
+            donorLocation = "Dutamas"
+        )
+        every { mockFirestore.collection("donorHistories") } returns mockCollectionReference
         every { mockCollectionReference.get() } returns mockTask
 
         mockkStatic("kotlinx.coroutines.tasks.TasksKt")
         coEvery { mockTask.await() } returns mockQuerySnapshot
 
-        every { mockQuerySnapshot.toObjects(Location::class.java) } returns listOf(location)
+        every { mockQuerySnapshot.toObjects(DonorHistory::class.java) } returns listOf(history)
 
-        val result = repository.fetchLocations()
+        val result = repository.fetchDonorHistories()
 
         assertTrue(result.isSuccess)
-        assertEquals(listOf(location)[0].name, result.getOrNull()!![0].name)
+        assertEquals(listOf(history)[0].donorLocation, result.getOrNull()!![0].donorLocation)
     }
 
 
     @Test
-    fun `fetch locations should throw exception`() = runTest {
+    fun `fetch donorHistories should throw exception`(): Unit = runTest {
 
         every { mockFirestore.collection("locations") } returns mockCollectionReference
         every { mockCollectionReference.get() } throws RuntimeException("Firestore fetch error")
 
-        val result = repository.fetchLocations()
+        val result = repository.fetchDonorHistories()
 
         assertTrue(result.isFailure)
         assertEquals("Firestore fetch error", result.exceptionOrNull()?.message)
