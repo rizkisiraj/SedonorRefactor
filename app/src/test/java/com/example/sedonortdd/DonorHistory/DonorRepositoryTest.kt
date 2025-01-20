@@ -67,7 +67,7 @@ class DonorRepositoryTest {
     @Test
     fun `fetch donorHistories should throw exception`(): Unit = runTest {
 
-        every { mockFirestore.collection("locations") } returns mockCollectionReference
+        every { mockFirestore.collection("donorHistories") } returns mockCollectionReference
         every { mockCollectionReference.get() } throws RuntimeException("Firestore fetch error")
 
         val result = repository.fetchDonorHistories()
@@ -117,7 +117,7 @@ class DonorRepositoryTest {
             systolicPressure = 8,
             donorLocation = "Dutamas"
         )
-        every { mockFirestore.collection("locations") } returns mockCollectionReference
+        every { mockFirestore.collection("donorHistories") } returns mockCollectionReference
         every { mockCollectionReference.add(history) } throws RuntimeException("Firestore write error")
 
         // Act
