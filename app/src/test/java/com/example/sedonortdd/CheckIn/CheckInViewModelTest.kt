@@ -5,8 +5,13 @@ import com.example.sedonortdd.data.repositories.CheckInRepository
 import com.example.sedonortdd.util.getOrAwaitValue
 import io.mockk.coEvery
 import io.mockk.mockk
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -21,35 +26,45 @@ class CheckInViewModelTest {
     private lateinit var viewModel: CheckInViewModel
     private val mockRepository: CheckInRepository = mockk()
 
+    private val testDispatcher = TestCoroutineDispatcher()
+
     @Before
     fun setUp() {
+        Dispatchers.setMain(testDispatcher)
         viewModel = CheckInViewModel(mockRepository)
+    }
+
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
     }
 
     @Test
     fun `fetchLocation should update LiveData when repository returns data`() = runTest {
-        // Arrange
-        val locationId = "valid_id"
-        val expectedLocation = Location(name = "Test Location", address = "Test Address", photo = "test.jpg")
+
+        val locationId = "NuaDS0zpRi1flLAfier9"
+        val expectedLocation = Location(
+            name = "Apotek Jalan Seturan",
+            address = "Jalan Seturan",
+            photo = "https://goalkes-images.s3.ap-southeast-1.amazonaws.com/media/5289/FbXaFridLSuGNYNVmpHPQpY6jI9U7WwBPkv2DJnm.jpg"
+        )
+
         coEvery { mockRepository.getLocationById(locationId) } returns expectedLocation
 
-        // Act
-        viewModel.fetchLocation(locationId)  // Panggil fungsi, tapi jangan langsung diuji return-nya
+        viewModel.fetchLocation(locationId)
 
-        // Assert
-        assertEquals(expectedLocation, viewModel.location.getOrAwaitValue()) // Uji LiveData
+        assertEquals(expectedLocation, viewModel.location.getOrAwaitValue())
     }
 
     @Test
     fun `fetchLocation should update LiveData to null when repository returns null`() = runTest {
-        // Arrange
+
         val locationId = "invalid_id"
         coEvery { mockRepository.getLocationById(locationId) } returns null
 
-        // Act
         viewModel.fetchLocation(locationId)
 
-        // Assert
-        assertEquals(null, viewModel.location.getOrAwaitValue())  // LiveData harus null
+        assertEquals(null, viewModel.location.getOrAwaitValue())
     }
 }
