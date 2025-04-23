@@ -59,9 +59,13 @@ dependencies {
 
     implementation(libs.play.services.mlkit.barcode.scanning)
 
-    // Firebase Crashlytics (opsional, perbaikan exclude rule)
-    // implementation(libs.firebase.crashlytics)
     implementation(libs.guava)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+
 
     testImplementation(libs.mockk)
     testImplementation(libs.junit)

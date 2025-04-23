@@ -1,8 +1,8 @@
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MutableLiveData
 import com.example.sedonortdd.data.models.Location
 import com.example.sedonortdd.data.repositories.CheckInRepository
 import com.example.sedonortdd.util.getOrAwaitValue
+import com.example.sedonortdd.viewModel.CheckInViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers

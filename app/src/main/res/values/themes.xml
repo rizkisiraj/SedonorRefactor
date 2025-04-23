@@ -7,6 +7,8 @@
             @color/transparentHalfBlack
         </item>
     </style>
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar"/>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar" />
+
     <style name="Theme.SedonorTDD" parent="Base.Theme.SedonorTDD" />
 </resources>

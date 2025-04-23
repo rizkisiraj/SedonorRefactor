@@ -1,3 +1,5 @@
+package com.example.sedonortdd.viewModel
+
 import androidx.lifecycle.*
 import com.example.sedonortdd.data.models.Location
 import com.example.sedonortdd.data.repositories.CheckInRepository

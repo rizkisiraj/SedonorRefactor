@@ -1,6 +1,6 @@
 package com.example.sedonortdd.ui.checkin
 
-import CheckInViewModel
+import com.example.sedonortdd.viewModel.CheckInViewModel
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -29,11 +29,9 @@ class CheckInActivity : AppCompatActivity() {
 
         previewView = findViewById(R.id.previewView)
 
-        // Inject Firestore ke dalam repository agar lebih fleksibel untuk unit test
         val firestore = FirebaseFirestore.getInstance()
         val checkInRepository = CheckInRepository(firestore)
-        viewModel = ViewModelProvider(this, CheckInViewModel.Factory(checkInRepository))
-            .get(CheckInViewModel::class.java)
+        viewModel = ViewModelProvider(this, CheckInViewModel.Factory(checkInRepository))[CheckInViewModel::class.java]
 
         startCamera()
         observeLocation()

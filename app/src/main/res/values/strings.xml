@@ -21,4 +21,12 @@ Non curabitur gravida arcu ac tortor dignissim convallis aenean et. Vitae nunc s
     <string name="avatar">avatar</string>
     <string name="lokasi">Lokasi</string>
     <string name="nama">nama</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="submit">Submit</string>
+    <string name="tulis_pertanyaan_anda">Tulis pertanyaan Anda...</string>
+    <string name="chatbot_tanya_pmi">Chatbot Tanya PMI</string>
 </resources>
