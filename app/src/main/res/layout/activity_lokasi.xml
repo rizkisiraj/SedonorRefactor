@@ -134,7 +134,7 @@
                 tools:listitem="@layout/item_lokasi_donor" />
 
         <TextView
-                android:id="@+id/emptyTextView"
+            android:id="@+id/emptyTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Lokasi donor kosong"

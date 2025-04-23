@@ -54,8 +54,8 @@ class LokasiAdapter(list: List<Location>?, listener: OnItemClickListener, glideR
         }
 
         fun bind(location: Location, glide: RequestManager) {
-            nama.setText(location.name)
-            lokasi.setText(location.location)
+            nama.text = location.name
+            lokasi.text = location.location
 
             glide.load(location.photo)
                 .placeholder(R.drawable.loading)
