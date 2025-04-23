@@ -37,13 +37,11 @@ class ArticleActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityArticleBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         bottomNavigationView = binding.bottomNavbar
 
-        var db = FirebaseFirestore.getInstance()
+        val db = FirebaseFirestore.getInstance()
         articleRepository = ArticleRepository(db)
         articleViewModel.repository = articleRepository
-
         articleViewModel.loadArticles()
 
         setupBottomNavigationBar()
@@ -70,7 +68,6 @@ class ArticleActivity : AppCompatActivity() {
                     intent.putExtra("title", clickedArticle.title)
                     intent.putExtra("content", clickedArticle.content)
                     intent.putExtra("imageUrl", clickedArticle.imageUrl)
-
                     startActivity(intent)
                 }
             }
@@ -83,7 +80,7 @@ class ArticleActivity : AppCompatActivity() {
     }
 
     private fun setupObservers() {
-        articleViewModel.articles.observe(this, Observer { articles ->
+        articleViewModel.articles.observe(this) { articles ->
             if (articles.isNullOrEmpty()) {
                 binding.emptyTextView.visibility = View.VISIBLE
                 binding.rvArtikel.visibility = View.GONE
@@ -92,7 +89,7 @@ class ArticleActivity : AppCompatActivity() {
                 binding.rvArtikel.visibility = View.VISIBLE
                 articleAdapter.updateData(articles) // Assuming updateData method in adapter
             }
-        })
+        }
 
         articleViewModel.loading.observe(this, Observer { isLoading ->
             binding.emptyTextView.text = "Loading..."
