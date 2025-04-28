@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation ("androidx.work:work-runtime-ktx:2.9.0")
 
     implementation(libs.androidx.camera.core)
     implementation(libs.androidx.camera.camera2)

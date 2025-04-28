@@ -87,6 +87,7 @@ class CheckInActivity : AppCompatActivity() {
                     putExtra("NAMADONOR", location.name)
                     putExtra("ALAMATLOKASI", location.address)
                     putExtra("IMAGELOKASI", location.photo)
+                    putExtra("JADWAL", location.schedule)
                 }
                 startActivity(intent)
                 finish()
