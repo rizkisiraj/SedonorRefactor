@@ -11,8 +11,8 @@ import com.bumptech.glide.RequestManager
 import com.example.sedonortdd.R
 import com.example.sedonortdd.data.models.Location
 
-class LokasiAdapter(list: List<Location>?, listener: OnItemClickListener, glideRequestManager: RequestManager) :
-    RecyclerView.Adapter<LokasiAdapter.MyViewHolder>() {
+class LokasiHomeAdapter(list: List<Location>?, listener: OnItemClickListener, glideRequestManager: RequestManager) :
+    RecyclerView.Adapter<LokasiHomeAdapter.MyViewHolder>() {
     private var list: List<Location>? = list
     private val mListener = listener
     private val glideRequestManager: RequestManager = glideRequestManager
@@ -22,7 +22,7 @@ class LokasiAdapter(list: List<Location>?, listener: OnItemClickListener, glideR
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_lokasi_donor, parent, false)
+        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_lokasi_home, parent, false)
         return MyViewHolder(view, mListener)
     }
 

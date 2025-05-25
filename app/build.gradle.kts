@@ -1,8 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+//    alias(libs.plugins.google.services)
+//    id("com.google.gms.google-services")
+//    id ("kotlin-parcelize")
     id("com.google.gms.google-services")
-    id ("kotlin-parcelize")
 }
 
 android {
@@ -66,6 +68,7 @@ dependencies {
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
+    implementation ("com.google.android.gms:play-services-base:18.2.0") // Or the latest version
 
 
     testImplementation(libs.mockk)

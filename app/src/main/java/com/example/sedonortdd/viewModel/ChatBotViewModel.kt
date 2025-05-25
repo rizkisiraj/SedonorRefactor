@@ -22,7 +22,7 @@ class ChatBotViewModel(application: Application) : AndroidViewModel(application)
     val isLoading = MutableLiveData<Boolean>(false)
     val errorMessage = MutableLiveData<String>("")
 
-    private val apiKey = "APIIKEY"
+    private val apiKey = "APIKEY"
     val authorizationHeader = "Bearer $apiKey"
 
     fun sendMessageToChatbot(userInput: String) {

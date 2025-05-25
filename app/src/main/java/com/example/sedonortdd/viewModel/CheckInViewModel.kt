@@ -1,9 +1,11 @@
 package com.example.sedonortdd.viewModel
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.sedonortdd.data.models.Location
 import com.example.sedonortdd.data.repositories.CheckInRepository
 import kotlinx.coroutines.launch
+import kotlin.math.log
 
 class CheckInViewModel(private val repository: CheckInRepository) : ViewModel() {
     private val _location = MutableLiveData<Location?>()
@@ -11,6 +13,7 @@ class CheckInViewModel(private val repository: CheckInRepository) : ViewModel() 
 
     fun fetchLocation(locationId: String) {
         viewModelScope.launch {
+            Log.d("ViewModel","Launch View Model")
             val result = repository.getLocationById(locationId)
             _location.postValue(result)
         }

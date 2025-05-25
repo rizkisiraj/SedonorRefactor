@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" >
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.sedonortdd">
     <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -9,7 +10,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-
 
     <uses-feature android:name="android.hardware.camera" />
 
@@ -22,22 +22,34 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SedonorTDD"
-        tools:targetApi="31" >
+        tools:targetApi="31">
+        <activity
+            android:name=".ui.home.ActivityHomePage"
+            android:exported="false">
+
+        </activity>
         <activity
             android:name=".ui.chatbot.ChatBotActivity"
             android:exported="false"
-            android:theme="@style/Theme.SedonorTDD" >
+            android:theme="@style/Theme.SedonorTDD">
 
-
+        </activity>
+        <activity
+            android:name=".ui.lokasi.LokasiDetailActivity"
+            android:exported="false">
 
         </activity>
         <activity
             android:name=".ui.checkin.CheckInDetail"
-            android:exported="false" >
-
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".ui.checkin.CheckInActivity"
+            android:exported="false"></activity>
+        <activity
+            android:name=".ui.article.DetailArticleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.lokasi.LokasiActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,14 +58,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.article.DetailArticleActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.lokasi.LokasiActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.article.ArticleActivity"
-            android:exported="true" />
+            android:exported="true"></activity>
     </application>
 
 </manifest>

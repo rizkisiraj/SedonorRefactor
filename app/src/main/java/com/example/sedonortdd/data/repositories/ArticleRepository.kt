@@ -15,4 +15,5 @@ class ArticleRepository(private val firestore: FirebaseFirestore) {
             Result.failure(e)
         }
     }
+
 }

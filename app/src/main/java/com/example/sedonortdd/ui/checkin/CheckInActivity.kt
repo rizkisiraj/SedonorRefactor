@@ -23,6 +23,8 @@ class CheckInActivity : AppCompatActivity() {
     private lateinit var imageAnalysis: ImageAnalysis
     private lateinit var viewModel: CheckInViewModel
 
+    private var isScanning = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_check_in)
@@ -60,6 +62,11 @@ class CheckInActivity : AppCompatActivity() {
 
     @ExperimentalGetImage
     private fun processImageProxy(imageProxy: ImageProxy) {
+        if (!isScanning) {
+            imageProxy.close()
+            return
+        }
+
         val barcodeScanner = BarcodeScanning.getClient()
         val mediaImage = imageProxy.image ?: return
         val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
@@ -68,14 +75,27 @@ class CheckInActivity : AppCompatActivity() {
             .addOnSuccessListener { barcodes ->
                 barcodes.firstOrNull()?.displayValue?.let { scannedValue ->
                     Log.d("CheckInActivity", "Barcode scanned: $scannedValue")
+                    isScanning = false // Stop scanning sementara
+
                     viewModel.fetchLocation(scannedValue)
-                } ?: Log.d("CheckInActivity", "No barcode detected")
+
+                    // Boleh ganti delay sesuai kebutuhan, misal 2 detik
+                    imageProxy.close()
+                    previewView.postDelayed({
+                        isScanning = true // Mulai scan lagi
+                    }, 2000)
+                } ?: run {
+                    Log.d("CheckInActivity", "No barcode detected")
+                    imageProxy.close()
+                }
             }
             .addOnFailureListener { e ->
                 Log.e("CheckInActivity", "Barcode scanning failed", e)
+                imageProxy.close()
             }
             .addOnCompleteListener {
-                imageProxy.close()
+                    imageProxy.close()
+
             }
     }
 
@@ -87,7 +107,7 @@ class CheckInActivity : AppCompatActivity() {
                     putExtra("NAMADONOR", location.name)
                     putExtra("ALAMATLOKASI", location.address)
                     putExtra("IMAGELOKASI", location.photo)
-                    putExtra("JADWAL", location.schedule)
+                    putExtra("JADWAL", "April 28, 2025 at 1:59:32PM UTC+7")
                 }
                 startActivity(intent)
                 finish()
