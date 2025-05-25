@@ -41,7 +41,4 @@ class DetailArticleActivity : AppCompatActivity() {
             .into(binding.ivDetailArtikel)
     }
 
-//    fun intentKeListArtikel(view: View) {
-//        TODO()
-//    }
 }

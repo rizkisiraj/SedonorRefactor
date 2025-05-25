@@ -18,6 +18,7 @@ android {
     defaultConfig {
         applicationId = "com.example.sedonortdd"
         minSdk = 24
+        //noinspection EditedTargetSdkVersion
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"

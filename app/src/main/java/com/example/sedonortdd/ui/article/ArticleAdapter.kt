@@ -46,7 +46,6 @@ class ArticleAdapter(list: List<Article>?, listener: OnItemClickListener, glideR
         private val gambar: ImageView = itemView.findViewById<ImageView>(R.id.ivGambar)
 
         init {
-            // Set listener on itemView for clicks
             itemView.setOnClickListener { v: View? ->
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION && listener != null) {

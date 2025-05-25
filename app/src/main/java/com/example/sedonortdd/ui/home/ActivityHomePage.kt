@@ -7,8 +7,6 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -16,14 +14,9 @@ import com.example.sedonortdd.R
 import com.example.sedonortdd.data.models.Location
 import com.example.sedonortdd.data.repositories.LocationRepository
 import com.example.sedonortdd.databinding.ActivityHomePageBinding
-import com.example.sedonortdd.databinding.ActivityLokasiBinding
-import com.example.sedonortdd.ui.article.ArticleActivity
 import com.example.sedonortdd.ui.chatbot.ChatBotActivity
-import com.example.sedonortdd.ui.lokasi.LokasiActivity
-import com.example.sedonortdd.ui.lokasi.LokasiAdapter
 import com.example.sedonortdd.ui.lokasi.LokasiHomeAdapter
 import com.example.sedonortdd.viewModel.HomePageViewModel
-import com.example.sedonortdd.viewModel.LocationViewModel
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlin.getValue
@@ -40,11 +33,9 @@ class ActivityHomePage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Initialize Firebase here if you choose this option
-        // Only call this if you haven't initialized it in a custom Application class
-        if (FirebaseApp.getApps(this).isEmpty()) { // Prevents re-initialization if already done
-            FirebaseApp.initializeApp(this)
-        }
+//        if (FirebaseApp.getApps(this).isEmpty()) { // Prevents re-initialization if already done
+//            FirebaseApp.initializeApp(this)
+//        }
 
         enableEdgeToEdge()
         binding = ActivityHomePageBinding.inflate(layoutInflater)
@@ -52,12 +43,11 @@ class ActivityHomePage : AppCompatActivity() {
 
         val db = FirebaseFirestore.getInstance()
         locationRepository = LocationRepository(db)
-        homeViewModel.repository = locationRepository
-
+        homeViewModel.repositoryLocation = locationRepository
         homeViewModel.loadLocations()
 
-        setupObservers()
         setupRecyclerView(listOf())
+        setupObservers()
 
         binding.apply {
             bottomNavbar.setOnNavigationItemSelectedListener { item ->
@@ -98,12 +88,12 @@ class ActivityHomePage : AppCompatActivity() {
     }
 
     private fun setupObservers() {
-        homeViewModel.locations.observe(this, Observer { articles ->
-            if (articles.isNullOrEmpty()) {
+        homeViewModel.locations.observe(this, Observer { locations ->
+            if (locations.isNullOrEmpty()) {
                 binding.rvLokasiHome.visibility = View.GONE
             } else {
                 binding.rvLokasiHome.visibility = View.VISIBLE
-                locationAdapter.updateData(articles)
+                locationAdapter.updateData(locations)
             }
         })
 

@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 class HomePageViewModel: ViewModel() {
 
-    lateinit var repository: LocationRepository
+    lateinit var repositoryLocation: LocationRepository
 
     private val _locations = MutableLiveData<List<Location>>()
     val locations: LiveData<List<Location>> get() = _locations
@@ -23,7 +23,7 @@ class HomePageViewModel: ViewModel() {
 
 
     fun loadLocations() {
-        if(!::repository.isInitialized) {
+        if(!::repositoryLocation.isInitialized) {
             throw IllegalStateException("Repository must be initialized before loading locations")
         }
 
@@ -31,7 +31,7 @@ class HomePageViewModel: ViewModel() {
         _error.value = null
 
         viewModelScope.launch {
-            val result = repository.fetchLocations()
+            val result = repositoryLocation.fetchLocations()
 
             result.fold(
                 onSuccess = {
